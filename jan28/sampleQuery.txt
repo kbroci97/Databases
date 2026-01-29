@@ -1,0 +1,30 @@
+Find the 10 players with the most career home runs 
+
+    query = """
+        SELECT playerID, sum(HR) as careerHR
+        FROM batting
+        WHERE teamID = 'PHI'
+        GROUP BY playerID
+        ORDER BY careerHR desc
+        LIMIT 11
+    """
+
+Generate a year by year list of total homeruns by the Phillies 
+
+    query = """
+        SELECT yearID, sum(HR) as seasonID
+        FROM batting
+        WHERE teamID = 'PHI'
+        GROUP BY yearID
+        ORDER BY yearID desc
+    """
+
+Get the list of 2025 teams and their season homeruns 
+
+    query = """
+        SELECT teamID, sum(HR) as teamsHR
+        FROM batting
+        WHERE yearID = 2025
+        GROUP BY teamID
+        ORDER BY teamsHR desc;
+    """
