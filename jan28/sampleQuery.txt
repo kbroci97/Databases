@@ -6,17 +6,17 @@ Find the 10 players with the most career home runs
         WHERE teamID = 'PHI'
         GROUP BY playerID
         ORDER BY careerHR desc
-        LIMIT 11
+        LIMIT 11;
     """
 
 Generate a year by year list of total homeruns by the Phillies 
 
     query = """
-        SELECT yearID, sum(HR) as seasonID
+        SELECT yearID, sum(HR) as seasonHR
         FROM batting
         WHERE teamID = 'PHI'
         GROUP BY yearID
-        ORDER BY yearID desc
+        ORDER BY yearID desc;
     """
 
 Get the list of 2025 teams and their season homeruns 
@@ -28,3 +28,44 @@ Get the list of 2025 teams and their season homeruns
         GROUP BY teamID
         ORDER BY teamsHR desc;
     """
+
+Same as above, but only show teams with 200 or more homeruns 
+
+    query = """
+        SELECT teamID, sum(HR) as teamsHR
+        FROM batting
+        WHERE yearID = 2025
+        GROUP BY teamID
+        HAVING teamsHR >= 200
+        ORDER BY teamID;
+    """
+
+Select everything after joining batting and teams, limit 10 
+
+    query = """
+        SELECT * 
+        FROM batting INNER JOIN teams 
+        ON batting.teamID = teams.teamID AND batting.yearID = teams.yearID
+        LIMIT 10;
+    """
+
+Get a list of all players from 1976 with team names 
+
+    query = """
+        SELECT playerID, batting.teamID, name
+        FROM batting INNER JOIN teams
+        ON batting.teamID = teams.teamID AND batting.yearID = teams.yearID
+        WHERE batting.yearID = 1976
+    """
+
+Babe Ruth's records, year, team name, and HR
+
+    query = """
+        SELECT batting.yearID, name, batting.HR
+        FROM batting INNER JOIN teams
+        ON batting.teamID = teams.teamID AND batting.yearID = teams.yearID
+        WHERE playerID = 'ruthba01'
+        ORDER BY batting.yearID;
+    """
+
+Did anyone play for more than one team in 1976

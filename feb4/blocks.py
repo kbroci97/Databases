@@ -3,7 +3,7 @@ import gradio as gr
 import pandas as pd
 
 def fetchPhillies():
-    conn = sqlite3.connect('baseball.db')
+    conn = sqlite3.connect('../baseball.db')
     cursor = conn.cursor()
     query = """
        SELECT playerID
@@ -20,7 +20,7 @@ def fetchPhillies():
     return players
 
 def f(player):
-    conn = sqlite3.connect('baseball.db')
+    conn = sqlite3.connect('../baseball.db')
     cursor = conn.cursor()
     query = """
         SELECT HR
@@ -32,7 +32,10 @@ def f(player):
     conn.close()
     return records[0][0]
 
+with gr.Blocks() as iface:  
+    iBox = gr.Dropdown(fetchPhillies(), label = "Select a player", value = None)
+    oBox = gr.Number(label="This is the sum of those numbers")
 
-iface = gr.Interface(fn = f, inputs = gr.Dropdown(fetchPhillies(),value = None), outputs = "number", live = True)
+    iBox.change(fn = f, inputs = [iBox], outputs = [oBox])
 
-iface.launch()
+iface.launch() 

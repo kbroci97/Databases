@@ -1,20 +1,21 @@
 import sqlite3
 import pandas as pd
 
-conn = sqlite3.connect('baseball.db')
+conn = sqlite3.connect('../baseball.db')
 cursor = conn.cursor()
 
 query = """
-    SELECT teamID, sum(HR) as teamsHR
-    FROM batting
-    WHERE yearID = 2025
-    GROUP BY teamID
-    ORDER BY teamsHR desc;
+    SELECT playerID, count(*)
+    FROM batting 
+    WHERE yearID = 1976
+    GROUP BY playerID
+    HAVING count(*) = 2
+    ORDER BY count(*) desc;
 """
 
 cursor.execute(query)
 records = cursor.fetchall()
 conn.close()
 
-records_df = pd.DataFrame(records, columns = ['playerID', 'careerHR'])
+records_df = pd.DataFrame(records)
 print(records_df)
