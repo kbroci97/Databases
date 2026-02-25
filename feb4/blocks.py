@@ -23,14 +23,14 @@ def f(player):
     conn = sqlite3.connect('../baseball.db')
     cursor = conn.cursor()
     query = """
-        SELECT HR
+        SELECT HR 
         FROM batting
         WHERE yearID = 1976 AND teamID = 'PHI' AND playerID = ?;
     """
     cursor.execute(query, [player])
     records = cursor.fetchall()
     conn.close()
-    return records[0][0]
+    return records[0][0] 
 
 with gr.Blocks() as iface:  
     iBox = gr.Dropdown(fetchPhillies(), label = "Select a player", value = None)
